@@ -1,7 +1,9 @@
 const knex = require("./connection.js");
 
 async function all() {
-    return knex('todos');
+    return knex('todos')
+        .leftJoin('users', 'todos.assignee_id', 'users.id')
+        .select('todos.*', 'users.name as assignee_name');
 }
 
 async function get(id) {
@@ -29,11 +31,20 @@ async function clear() {
     return knex('todos').del().returning('*');
 }
 
+async function getByAssignee(assigneeId) {
+    const results = await knex('todos')
+        .leftJoin('users', 'todos.assignee_id', 'users.id')
+        .where({ 'users.id': assigneeId })
+        .select('todos.*', 'users.name as assignee_name');
+    return results;
+}
+
 module.exports = {
     all,
     get,
     create,
     update,
     delete: del,
-    clear
+    clear,
+    getByAssignee
 }

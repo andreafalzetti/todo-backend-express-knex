@@ -3,6 +3,7 @@ const controller = require("../controllers/todo");
 function routes(app) {
   app.get("/", controller.getAllTodos);
   app.get("/:id", controller.getTodo);
+  app.get("/assignee/:assigneeId", controller.getTodoByAssignee);
 
   app.post("/", controller.postTodo);
   app.patch("/:id", controller.patchTodo);

@@ -12,6 +12,10 @@ function createToDo(req, data) {
     order: data.order,
     completed: data.completed || false,
     url: `${protocol}://${host}/${id}`,
+    assignee: {
+        id: data.assignee_id,
+        name: data.assignee_name,
+    },
   };
 }
 
@@ -45,6 +49,11 @@ async function deleteTodo(req, res) {
   return res.send(createToDo(req, deleted));
 }
 
+async function getTodoByAssignee(req, res) {
+    console.log('assigneeId', req.params.assigneeId);
+  const todo = await todos.getByAssignee(req.params.assigneeId);
+  return res.send(todo);
+}
 
 const toExport = {
   getAllTodos: {
@@ -53,6 +62,10 @@ const toExport = {
   },
   getTodo: { method: getTodo, errorMessage: "Could not fetch todo" },
   postTodo: { method: postTodo, errorMessage: "Could not post todo" },
+  getTodoByAssignee: {
+    method: getTodoByAssignee,
+    errorMessage: "Could not fetch todo by assignee",
+  },
   patchTodo: { method: patchTodo, errorMessage: "Could not patch todo" },
   deleteAllTodos: {
     method: deleteAllTodos,

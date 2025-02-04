@@ -1,15 +1,16 @@
 const controller = require("../controllers/todo");
+const verifyToken = require("../middleware/verifyToken");
 
 function routes(app) {
-  app.get("/", controller.getAllTodos);
-  app.get("/:id", controller.getTodo);
-  app.get("/assignee/:assigneeId", controller.getTodoByAssignee);
+  app.get("/", verifyToken, controller.getAllTodos);
+  app.get("/:id", verifyToken, controller.getTodo);
+  app.get("/assignee/:assigneeId", verifyToken, controller.getTodoByAssignee);
 
-  app.post("/", controller.postTodo);
-  app.patch("/:id", controller.patchTodo);
+  app.post("/", verifyToken, controller.postTodo);
+  app.patch("/:id", verifyToken, controller.patchTodo);
 
-  app.delete("/", controller.deleteAllTodos);
-  app.delete("/:id", controller.deleteTodo);
+  app.delete("/", verifyToken, controller.deleteAllTodos);
+  app.delete("/:id", verifyToken, controller.deleteTodo);
 }
 
 module.exports = routes;

@@ -5,6 +5,13 @@
   But the .returning() method will only work for PostgreSQL, MSSQL, and Oracle databases.
 */
 require('dotenv').config();
+
+console.log({
+  database: process.env.PGDATABASE,
+  user:     process.env.PGUSER,
+  password: process.env.PGPASSWORD
+})
+
 module.exports = {
 
   test: {
